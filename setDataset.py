@@ -20,7 +20,13 @@ for annotation in annotations:
     image_path = "data/" + images[image_id]["file_name"]
     rect = annotation["bbox"]
     try:
-        img = cv.imread(image_path)
+        img = cv.imread(image_path,cv.IMREAD_GRAYSCALE)
+        if rect[3] > rect[2]:
+            rect[0] = rect[0] + rect[2]/2 - rect[3]/2
+            rect[2] = rect[3]
+        elif rect[3] < rect[2]:
+            rect[1] = rect[1] + rect[3]/2 - rect[2]/2
+            rect[3] = rect[2] 
         roi = img[int(rect[1]):int(rect[1])+int(rect[3]),int(rect[0]):int(rect[0])+int(rect[2])]
         roi = cv.resize(roi,(128,128))
         print("正在处理图片"+str(image_id)+",标签："+str(category_id))
