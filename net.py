@@ -11,7 +11,7 @@ import tensorboard
 
 # import numpy as np
 # import matplotlib as plt
-def genVGG(input_shape=(128,128,3)):
+def genVGG(input_shape=(128,128,1)):
     deep_model = tf.keras.Sequential()
     
     # BLOCK 1
@@ -58,16 +58,17 @@ if __name__ == '__main__':
     model = genVGG()
     model.summary()
     x = np.load('./data/x.npy')
+    x = x.reshape((4685,128,128,1))
     y = np.load('./data/y.npy')
     # print(y.shape,x.shape)
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.1, random_state = 400)
     y_train = to_categorical(y_train)
     y_test = to_categorical(y_test)
-    opt = Adam(lr=0.0001)
+    opt = Adam(lr=0.000001)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=["acc"])
     # early_stop = EarlyStopping(patience=20)
     # reduce_lr = ReduceLROnPlateau(patience=15)
-    save_weights = ModelCheckpoint("./models/model_{epoch:02d}_{val_acc:.4f}.h5", 
+    save_weights = ModelCheckpoint("./models/model.h5", 
                                    save_best_only=True, monitor='val_acc')
     log_dir="logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
