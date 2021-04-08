@@ -11,7 +11,7 @@ import tensorboard
 
 # import numpy as np
 # import matplotlib as plt
-def genVGG(input_shape=(64,64,3)):
+def genVGG(input_shape=(128,128,3)):
     deep_model = tf.keras.Sequential()
     
     # BLOCK 1
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.1, random_state = 400)
     y_train = to_categorical(y_train)
     y_test = to_categorical(y_test)
-    opt = Adam(lr=0.001)
+    opt = Adam(lr=0.0001)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=["acc"])
     # early_stop = EarlyStopping(patience=20)
     # reduce_lr = ReduceLROnPlateau(patience=15)
