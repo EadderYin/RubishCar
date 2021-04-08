@@ -22,7 +22,7 @@ for annotation in annotations:
     try:
         img = cv.imread(image_path)
         roi = img[int(rect[1]):int(rect[1])+int(rect[3]),int(rect[0]):int(rect[0])+int(rect[2])]
-        roi = cv.resize(roi,(64,64))
+        roi = cv.resize(roi,(128,128))
         print("正在处理图片"+str(image_id)+",标签："+str(category_id))
     except:
         print("图片"+str(image_id)+"处理失败")

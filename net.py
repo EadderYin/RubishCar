@@ -11,7 +11,7 @@ import tensorboard
 
 # import numpy as np
 # import matplotlib as plt
-def genVGG(input_shape=(64,64,3)):
+def genVGG(input_shape=(128,128,3)):
     deep_model = tf.keras.Sequential()
     
     # BLOCK 1
