@@ -5,12 +5,13 @@ from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCh
 import numpy as np
 from sklearn.model_selection import train_test_split
 import datetime
+from tensorflow.keras.utils import to_categorical 
 
 import tensorboard
 
 # import numpy as np
 # import matplotlib as plt
-def genVGG(input_shape=(256,256,3)):
+def genVGG(input_shape=(64,64,3)):
     deep_model = tf.keras.Sequential()
     
     # BLOCK 1
@@ -46,7 +47,7 @@ def genVGG(input_shape=(256,256,3)):
     deep_model.add(keras.layers.Dropout(0.5))
     deep_model.add(keras.layers.Dense(4096, activation = 'relu', name = 'fc2'))
     deep_model.add(keras.layers.Dropout(0.5))
-    deep_model.add(keras.layers.Dense(5, activation = 'softmax', name = 'prediction'))
+    deep_model.add(keras.layers.Dense(60, activation = 'softmax', name = 'prediction'))
 
     # 观察网络结构
     # deep_model.summary()
@@ -58,8 +59,11 @@ if __name__ == '__main__':
     model.summary()
     x = np.load('./data/x.npy')
     y = np.load('./data/y.npy')
+    # print(y.shape,x.shape)
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.1, random_state = 400)
-    opt = Adam(lr=0.0001)
+    y_train = to_categorical(y_train)
+    y_test = to_categorical(y_test)
+    opt = Adam(lr=0.001)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=["acc"])
     # early_stop = EarlyStopping(patience=20)
     # reduce_lr = ReduceLROnPlateau(patience=15)
