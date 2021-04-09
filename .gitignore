@@ -9,5 +9,6 @@
 *.pb
 *.gz
 *.profile-empty
+*.npy
 
 .vscode/settings.json
