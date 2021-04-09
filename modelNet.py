@@ -234,7 +234,7 @@ def ResNet50(input_shape = (64, 64, 3), classes = 6):
 if __name__ == '__main__':
     #define and compile model.
 
-    model = ResNet50(input_shape=(128, 128, 1), classes=60)
+    model = ResNet50(input_shape=(128, 128, 3), classes=60)
     opt = Adam(lr=0.0001)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
 
@@ -248,7 +248,7 @@ if __name__ == '__main__':
 
     #load the dataset
     x = np.load('./data/x.npy')
-    x = x.reshape((4685,128,128,1))
+    x = x.reshape((4685,128,128,3))
     y = np.load('./data/y.npy')
     # print(y.shape,x.shape)
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.1, random_state = 400)
