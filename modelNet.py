@@ -14,6 +14,8 @@ from tensorflow.python.keras.utils import layer_utils
 from tensorflow.python.keras.utils.data_utils import get_file
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint, TensorBoard 
 # import pydot
 # from IPython.display import SVG
 from tensorflow.python.keras.utils.vis_utils import model_to_dot
@@ -22,6 +24,8 @@ from tensorflow.keras.utils import plot_model
 from tensorflow.keras.initializers import glorot_uniform
 import scipy.misc
 from matplotlib.pyplot import imshow
+from sklearn.model_selection import train_test_split
+import datetime
 # %matplotlib inline
 
 import tensorflow.keras.backend as K
@@ -230,7 +234,7 @@ def ResNet50(input_shape = (64, 64, 3), classes = 6):
 if __name__ == '__main__':
     #define and compile model.
 
-    model = ResNet50(input_shape=(64, 64, 3), classes=6)
+    model = ResNet50(input_shape=(128, 128, 1), classes=60)
     opt = Adam(lr=0.0001)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
 
@@ -242,14 +246,23 @@ if __name__ == '__main__':
         # print("imshow: ")
         print(Error)
 
-    #set model callback.
-    # save_weights = ModelCheckpoint("./models/model.h5", 
-    #                                save_best_only=True, monitor='val_acc')
-    # log_dir="logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-    # tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
-    # callbacks = [save_weights, tensorboard_callback]
+    #load the dataset
+    x = np.load('./data/x.npy')
+    x = x.reshape((4685,128,128,1))
+    y = np.load('./data/y.npy')
+    # print(y.shape,x.shape)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.1, random_state = 400)
+    y_train = to_categorical(y_train)
+    y_test = to_categorical(y_test)
 
-    # #train the model.
-    # model.fit(x_train, y_train, epochs = 100, batch_size=32, 
-    #           validation_data = (x_test, y_test), callbacks=callbacks)
+    #set model callback.
+    save_weights = ModelCheckpoint("./models/model.h5", 
+                                   save_best_only=True, monitor='val_acc')
+    log_dir="logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
+    callbacks = [save_weights, tensorboard_callback]
+
+    #train the model.
+    model.fit(x_train, y_train, epochs = 100, batch_size=32, 
+              validation_data = (x_test, y_test), callbacks=callbacks)
     
