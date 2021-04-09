@@ -3,4 +3,11 @@
 *.xlsx
 *.pbix
 
+
 /venv
+*.v2
+*.pb
+*.gz
+*.profile-empty
+
+.vscode/settings.json
