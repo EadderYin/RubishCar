@@ -36,7 +36,7 @@ def main():
 
     model = ResNet50(input_shape=(128, 128, 3), classes=60)
     opt = Adam(lr=0.0001)
-    model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['acc'])
 
     #load the dataset
     x = np.load('./data/x.npy')
