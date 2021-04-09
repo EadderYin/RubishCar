@@ -5,6 +5,8 @@
 
 
 /venv
+/data/img
+/data/new_img
 *.v2
 *.pb
 *.gz
