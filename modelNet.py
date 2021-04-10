@@ -170,10 +170,10 @@ def ResNet50(input_shape = (64, 64, 3), classes = 6):
 
 
     # Gaussnoise
-    X = GaussianNoise(0.01)(X)
+    X = GaussianNoise(0.01)(X_input)
     
     # Zero-Padding
-    X = ZeroPadding2D((3, 3))(X_input)
+    X = ZeroPadding2D((3, 3))(X)
     
     # Stage 1
     X = Conv2D(filters=64, kernel_size=(7, 7), strides=(2, 2), name="conv",
