@@ -34,13 +34,13 @@ K.set_learning_phase(1)
 def main():
     #define and compile model.
 
-    model = ResNet50(input_shape=(128, 128, 3), classes=60)
+    model = ResNet50(input_shape=(128, 128, 3), classes=4)
     opt = Adam(lr=0.0001)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['acc'])
 
     #load the dataset
     x = np.load('./data/x.npy')
-    x = x.reshape((4685,128,128,3))
+    # x = x.reshape((4685,128,128,3))
     y = np.load('./data/y.npy')
     # print(y.shape,x.shape)
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.1, random_state = 400)

@@ -30,7 +30,7 @@ if __name__ == '__main__':
     img = cv2.imread("./testImage.jpg")
     #创建预览界面
     cv2.namedWindow("Preview")
-    cv2.createTrackbar("mean","Preview",-50,50,nothing)
+    cv2.createTrackbar("mean","Preview",0,100,nothing)
     cv2.createTrackbar("var","Preview",0,100,nothing)
     """
         mean = 0, var = 10;
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     while(1):
         mean = cv2.getTrackbarPos("mean","Preview")
         var = cv2.getTrackbarPos("var","Preview")
-        img_r = Gaussnoise_func(img,mean/100,var/10000)
+        img_r = Gaussnoise_func(img,mean/100,var/1000)
         cv2.imshow("Result",img_r)
         k = cv2.waitKey(1) & 0xff
         if k == 27:
