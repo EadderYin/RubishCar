@@ -7,7 +7,7 @@ https://cloud.tencent.com/developer/article/1437390
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers
-from tensorflow.keras.layers import Input, Add, Dense, Activation, ZeroPadding2D, BatchNormalization, Flatten, Conv2D, AveragePooling2D, MaxPooling2D, GlobalMaxPooling2D, GaussianNoise
+from tensorflow.keras.layers import Input, Add, Dense, Activation, ZeroPadding2D, BatchNormalization, Flatten, Conv2D, AveragePooling2D, MaxPooling2D, GlobalMaxPooling2D, GaussianNoise, MaxPool2D
 from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.preprocessing import image
 from tensorflow.python.keras.utils import layer_utils
@@ -233,11 +233,34 @@ def ResNet50(input_shape = (64, 64, 3), classes = 6):
 
     return model
 
+def simpleModel(input_shape = (64, 64, 3), classes = 6):
+    X_input = Input(shape=input_shape)
+    x = Conv2D(32, (3,3), padding='same')(X_input)
+    x = MaxPool2D((2,2))(x)
+    x = Activation("relu")(x)
+
+    x = Conv2D(64, (3,3), padding='same')(x)
+    x = MaxPool2D((2,2))(x)
+    x = Activation("relu")(x)
+
+    x = Conv2D(128, (3,3), padding='same')(x)
+    x = MaxPool2D((2,2))(x)
+    x = Activation("relu")(x)
+
+    x = Flatten()(x)
+    x = Dense(classes)(x)
+    x = Activation("softmax")(x)
+
+    model = Model(inputs=X_input, outputs=x, name="SimpleModle")
+
+    return model
+
+
 
 if __name__ == '__main__':
     #define and compile model.
 
-    model = ResNet50(input_shape=(128, 128, 3), classes=60)
+    model = simpleModel()
     opt = Adam(lr=0.0001)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
 
