@@ -34,7 +34,8 @@ K.set_learning_phase(1)
 def main():
     #define and compile model.
 
-    model = simpleModel(input_shape=(64,64,3),classes=5)
+    # model = simpleModel(input_shape=(64,64,3),classes=5)
+    model = ResNet50(input_shape=(64,64,3),classes=5)
     opt = Adam(lr=0.0001)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['acc'])
 
