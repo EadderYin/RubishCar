@@ -17,7 +17,7 @@ for index,path in  enumerate(paths):
     files = os.listdir(datasetPath + '/' + path)
     for imgfile in files:
         img = cv.imread(datasetPath + '/'+path+'/'+imgfile)
-        img = cv.resize(img,(128,128))
+        img = cv.resize(img,(64,64))
         # cv.imshow('img',img)
         # cv.waitKey()
         imgs.append(img)
