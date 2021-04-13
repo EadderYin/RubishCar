@@ -44,6 +44,8 @@ def main():
     y = np.load('./data/y.npy')
     # print(y.shape,x.shape)
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.1, random_state = 400)
+    x_train = x_train / 128.0 -1
+    x_test = x_test /128.0 -1
     y_train = to_categorical(y_train)
     y_test = to_categorical(y_test)
 
