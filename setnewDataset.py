@@ -12,8 +12,8 @@ datasetPath = "./Dataset"
 paths = os.listdir(datasetPath)
 imgs = []
 labels = []
-for path in paths:
-    label = int(path.split('_')[0])
+for index,path in  enumerate(paths):
+    label = index
     files = os.listdir(datasetPath + '/' + path)
     for imgfile in files:
         img = cv.imread(datasetPath + '/'+path+'/'+imgfile)
